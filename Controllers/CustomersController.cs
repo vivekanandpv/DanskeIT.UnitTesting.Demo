@@ -13,13 +13,14 @@ namespace DanskeIT.UnitTesting.Demo.Controllers
     public class CustomersController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<IEnumerable<Customer>> Get()
         {
-            return Ok(new List<Customer>());
+            var customers = new List<Customer>();
+            return Ok(customers);
         }
 
         [HttpGet("{id:int}")]
-        public IActionResult Get(int id)
+        public ActionResult<Customer> Get(int id)
         {
             return Ok(new Customer {Name = "Test Customer"});
         }
@@ -39,7 +40,15 @@ namespace DanskeIT.UnitTesting.Demo.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            return Ok(new {Message = "Deleted"});
+            if (id < 100)
+            {
+                return Ok(new {Message = "Deleted"});
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
     }
 }
